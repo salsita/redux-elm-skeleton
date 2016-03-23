@@ -5,9 +5,10 @@ const initialModel = {
 };
 
 export default new Updater(initialModel, Matchers.exactMatcher)
-  .case('SayHi', function*() {
+  .case('SayHi', function*(model) {
     return {
+      ...model,
       greeted: true
-    };
+    }
   })
   .toReducer();

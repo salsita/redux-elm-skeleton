@@ -1,6 +1,6 @@
 import run from './boilerplate';
 
-import view from './hello-world/view';
-import updater from './hello-world/updater';
+import view from './plain/view';
+import updater from './plain/updater';
 
 run('app', view, updater);

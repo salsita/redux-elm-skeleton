@@ -24,7 +24,7 @@
     "react-router-redux": "^4.0.0",
     "redux": "^3.3.1",
     "redux-elm": "^1.0.0-alpha",
-    "redux-side-effects": "^0.3.0"
+    "redux-side-effects": "^1.0.0"
   },
   "author": "Tomas Weiss <tomasw@salsitasoft.com>",
   "license": "MIT"

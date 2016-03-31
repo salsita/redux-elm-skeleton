@@ -14,6 +14,15 @@ export function init(topic) {
   };
 };
 
+export function* fetchGif(model) {
+  yield sideEffect(Effects.fetchGif, model.topic);
+
+  return {
+    ...model,
+    gifUrl: null
+  };
+};
+
 export default new Updater(init('funny cats'), Matchers.exactMatcher)
   .case('NewGif', function*(model, action) {
     return {
@@ -21,12 +30,5 @@ export default new Updater(init('funny cats'), Matchers.exactMatcher)
       gifUrl: action.url
     }
   })
-  .case('RequestMore', function*(model, action) {
-    yield sideEffect(Effects.fetchGif, model.topic);
-
-    return {
-      ...model,
-      gifUrl: null
-    };
-  })
+  .case('RequestMore', fetchGif)
   .toReducer();

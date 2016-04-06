@@ -15,14 +15,14 @@ module.exports = {
     './src/main.js'
   ],
   output: {
-    path: path.join(__dirname, './dev'),
+    path: path.resolve(__dirname, 'dev'),
     filename: 'app.bundle.js'
   },
   module: {
     loaders: [{
       test: /\.jsx$|\.js$/,
       loaders: ['babel-loader'],
-      include: path.join(__dirname, './src')
+      include: path.resolve(__dirname, 'src')
     }]
   },
   resolve: {

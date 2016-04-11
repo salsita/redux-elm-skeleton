@@ -1,0 +1,8 @@
+[ignore]
+.*/fbjs/.*
+
+[include]
+
+[libs]
+
+[options]

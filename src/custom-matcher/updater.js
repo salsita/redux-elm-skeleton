@@ -13,7 +13,7 @@ function* init() {
 
 const endsWithMatcher = pattern => {
   return action => {
-    if (action.type.endsWith(pattern)) {
+    if (action.type.endsWith(`.${pattern}`)) {
       return [ pattern ];
     } else {
       return false;

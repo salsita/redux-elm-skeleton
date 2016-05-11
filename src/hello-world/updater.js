@@ -1,14 +1,9 @@
-import { Updater, Matchers } from 'redux-elm';
+import { Updater } from 'redux-elm';
 
 const initialModel = {
   greeted: false
 };
 
-export default new Updater(initialModel, Matchers.exactMatcher)
-  .case('SayHi', function*(model) {
-    return {
-      ...model,
-      greeted: true
-    }
-  })
+export default new Updater(initialModel)
+  .case('SayHi', model => ({ ...model, greeted :true }))
   .toReducer();

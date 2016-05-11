@@ -1,15 +1,7 @@
 import { Updater, Matchers, mapEffects } from 'redux-elm';
 
-import counterUpdater from '../counter/updater';
-import countersPairUpdater from '../counters-pair/updater';
-
-function* init() {
-  return {
-    counter: yield* mapEffects(counterUpdater(), 'Counter'),
-    countersPair: yield* mapEffects(countersPairUpdater(), 'CountersPair'),
-    globalCounter: 0
-  };
-}
+import counterUpdater, { initialModel as counterInitialModel } from '../counter/updater';
+import countersPairUpdater, { initialModel as countersPairInitialModel } from '../counters-pair/updater';
 
 const endsWithMatcher = pattern => {
   return action => {
@@ -21,23 +13,17 @@ const endsWithMatcher = pattern => {
   };
 };
 
-export default new Updater(init)
-  .case('Counter', function*(model, action) {
-    return {
-      ...model,
-      counter: yield* mapEffects(counterUpdater(model.counter, action), 'Counter')
-    };
-  })
-  .case('CountersPair', function*(model, action) {
-    return {
-      ...model,
-      countersPair: yield* mapEffects(countersPairUpdater(model.countersPair, action), 'CountersPair')
-    };
-  })
-  .case('Increment', function*(model, action) {
-    return {
-      ...model,
-      globalCounter: model.globalCounter + 1
-    };
-  }, endsWithMatcher)
+const initialModel = {
+  counter: counterInitialModel,
+  countersPair: countersPairInitialModel,
+  globalCounter: 0
+};
+
+export default new Updater(initialModel)
+  .case('Counter', (model, ...rest) => ({ ...model, counter: counterUpdater(model.counter, ...rest) }))
+  .case('CountersPair', (model, ...rest) => ({ ...model, countersPair: countersPairUpdater(model.countersPair, ...rest) }))
+  .case('Increment', model => ({
+    ...model,
+    globalCounter: model.globalCounter + 1
+  }), endsWithMatcher)
   .toReducer();

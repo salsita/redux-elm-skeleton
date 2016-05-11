@@ -1,5 +1,5 @@
 import React from 'react';
-import { forwardTo } from 'redux-elm';
+import { view, forwardTo } from 'redux-elm';
 
 import GifViewer from '../gif-viewer/view';
 
@@ -11,7 +11,7 @@ const inputStyle = {
   textAlign: 'center'
 };
 
-export default ({ model, dispatch }) => (
+export default view(({ model, dispatch }) => (
   <div>
     <input
       placeholder="What kind of gifs do you want?"
@@ -24,4 +24,4 @@ export default ({ model, dispatch }) => (
         <GifViewer key={index} model={gifViewerModel} dispatch={forwardTo(dispatch, 'GifViewer', index)} />)}
     </div>
   </div>
-);
+));

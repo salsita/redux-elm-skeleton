@@ -1,25 +1,13 @@
-import { Updater, Matchers, mapEffects } from 'redux-elm';
+import { Updater } from 'redux-elm';
 
-import counterUpdater from '../counter/updater';
+import counterUpdater, { initialModel as counterInitialModel } from '../counter/updater';
 
-function* init() {
-  return {
-    top: yield* mapEffects(counterUpdater(), 'Top'),
-    bottom: yield* mapEffects(counterUpdater(), 'Bottom')
-  };
-}
+export const initialModel = {
+  top: counterInitialModel,
+  bottom: counterInitialModel
+};
 
-export default new Updater(init)
-  .case('Top', function*(model, action) {
-    return {
-      ...model,
-      top: yield* mapEffects(counterUpdater(model.top, action), 'Top')
-    };
-  })
-  .case('Bottom', function*(model, action) {
-    return {
-      ...model,
-      bottom: yield* mapEffects(counterUpdater(model.bottom, action), 'Bottom')
-    };
-  })
+export default new Updater(initialModel)
+  .case('Top', (model, ...rest) => ({ ...model, top: counterUpdater(model.top, ...rest) }))
+  .case('Bottom', (model, ...rest) => ({ ...model, bottom: counterUpdater(model.bottom, ...rest) }))
   .toReducer();

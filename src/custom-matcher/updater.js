@@ -1,4 +1,4 @@
-import { Updater, Matchers, mapEffects } from 'redux-elm';
+import { Updater } from 'redux-elm';
 
 import counterUpdater, { initialModel as counterInitialModel } from '../counter/updater';
 import countersPairUpdater, { initialModel as countersPairInitialModel } from '../counters-pair/updater';
@@ -6,7 +6,13 @@ import countersPairUpdater, { initialModel as countersPairInitialModel } from '.
 const endsWithMatcher = pattern => {
   return action => {
     if (action.type.endsWith(`.${pattern}`)) {
-      return [ pattern ];
+      const wrapRegExp = new RegExp(`(.*)\.${pattern}$`);
+
+      return {
+        unwrap: pattern,
+        wrap: action.type.match(wrapRegExp)[1],
+        args: {}
+      }
     } else {
       return false;
     }

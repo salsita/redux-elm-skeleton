@@ -1,8 +1,8 @@
-import { Updater } from 'redux-elm';
+import { Updater, wrapAction } from 'redux-elm';
 import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 
-import gifViewerUpdater, { init as gifViewerInit } from '../gif-viewer/updater';
+import gifViewerUpdater, { init as gifViewerInit, requestMore } from '../gif-viewer/updater';
 
 const initialModel = {
   top: gifViewerInit('funny cats'),
@@ -10,8 +10,8 @@ const initialModel = {
 };
 
 function* fetchAll() {
-  yield put({ type: 'Top.RequestMore' });
-  yield put({ type: 'Bottom.RequestMore' });
+  yield put(wrapAction(requestMore(), 'Top'));
+  yield put(wrapAction(requestMore(), 'Bottom'));
 }
 
 function* saga() {
@@ -19,8 +19,8 @@ function* saga() {
 }
 
 export default new Updater(initialModel, saga)
-  .case('Top', (model, ...rest) =>
-    ({ ...model, top: gifViewerUpdater(model.top, ...rest) }))
-  .case('Bottom', (model, ...rest) =>
-    ({ ...model, bottom: gifViewerUpdater(model.bottom, ...rest) }))
+  .case('Top', (model, action) =>
+    ({ ...model, top: gifViewerUpdater(model.top, action) }))
+  .case('Bottom', (model, action) =>
+    ({ ...model, bottom: gifViewerUpdater(model.bottom, action) }))
   .toReducer();

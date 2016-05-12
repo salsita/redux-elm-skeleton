@@ -4,18 +4,20 @@ import { call, put, select } from 'redux-saga/effects';
 
 import * as Effects from './effects';
 
-export const getTopic = model => model.topic;
+const getTopic = model => model.topic;
 
-export function* fetchGif() {
+function* fetchGif() {
   const topic = yield select(getTopic);
   const url = yield call(Effects.fetchGif, topic);
   yield put({ type: 'NewGif', url });
 }
 
-export function* saga() {
+function* saga() {
   yield* fetchGif();
   yield* takeEvery('RequestMore', fetchGif);
 }
+
+export const requestMore = () => ({ type: 'RequestMore' });
 
 export const init = topic => ({
   topic,

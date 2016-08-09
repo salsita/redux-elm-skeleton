@@ -16,7 +16,7 @@ export default new Updater(initialModel)
     gifViewers: [...model.gifViewers, gifViewerInit(model.topic)]
   }))
   .case('GifViewer', (model, action) => {
-    const numericGifViewerIndex = parseInt(action.args.param, 10);
+    const numericGifViewerIndex = parseInt(action.matching.args.param, 10);
 
     return {
       ...model,

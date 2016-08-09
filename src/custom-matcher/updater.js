@@ -9,8 +9,9 @@ const endsWithMatcher = pattern => {
       const wrapRegExp = new RegExp(`(.*)\.${pattern}$`);
 
       return {
-        unwrap: pattern,
-        wrap: action.type.match(wrapRegExp)[1],
+        id: `ends-with${pattern}`,
+        unwrappedType: pattern,
+        wrap: type => `${action.type.match(wrapRegExp)[1]}.${type}`,
         args: {}
       }
     } else {

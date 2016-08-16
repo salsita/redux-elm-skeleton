@@ -26,7 +26,7 @@
     "react-dom": "^15.3.0",
     "react-redux": "^4.0.0",
     "redux": "^3.3.1",
-    "redux-elm": "^3.0.0-beta",
+    "redux-elm": "^3.0.0",
     "redux-saga": "^0.11.0",
     "rxjs": "^5.0.0-beta.10"
   },
